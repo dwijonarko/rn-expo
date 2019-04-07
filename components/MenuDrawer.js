@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import { Platform, Dimensions,StyleSheet,View,Text,TouchableOpacity,Image,ScrollView } from 'react-native';
+import {ImagePicker,Permissions} from 'expo'
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 export default class MenuDrawer extends Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+          image:'http://bit.ly/gbr-pisang',
+          hasCameraPermission: null,
+          hasCameraRollPermission:null,
+      }
+    }
+
+    async componentWillMount() {
+        const { statusCameraRoll } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        this.setState({ hasCameraRollPermission: statusCameraRoll === 'granted' });
+        const { statusCamera } = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({ hasCameraPermission: statusCamera === 'granted' });
+    }
+    
+
     navlink(nav,text){
         return(
             <TouchableOpacity style={{ height: 50 }} onPress={() => this.props.navigation.navigate(nav)}>
@@ -11,15 +29,26 @@ export default class MenuDrawer extends Component {
             </TouchableOpacity>
         )
     }
-  render() {
+
+    _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+        // let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [1, 1],
+        });
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+        }
+    };
+
+    render() {
     return (
-      <View style={styles.container}>
-      
+    <View style={styles.container}>
         <View style={styles.topLink}>
             <View style={styles.profile}>
-                <View style={styles.imgView}>
-                    <Image style={styles.img} source={require('../assets/profile.jpg')} />
-                </View>
+                <TouchableOpacity style={styles.imgView} onPress={this._pickImage}>
+                        <Image style={styles.img} source={{ uri: this.state.image}}  />
+                </TouchableOpacity>
                 <View style={styles.profileText}>
                     <Text style={styles.name}>Dwi Wijonarko</Text>
                 </View>

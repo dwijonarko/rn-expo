@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, ImageBackground, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-import { Camera, Permissions, FileSystem } from 'expo';
+import { Camera, Permissions, MediaLibrary } from 'expo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default class CameraScreen extends Component {
@@ -8,6 +8,7 @@ export default class CameraScreen extends Component {
         super();
         this.state = {
             hasCameraPermission: null,
+            hasCameraRollPermission: null,
             imageSrc: null,
             type: Camera.Constants.Type.back,
         };
@@ -16,6 +17,8 @@ export default class CameraScreen extends Component {
     async componentWillMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
+        const { statusCameraRoll } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        this.setState({ hasCameraRollPermission: statusCameraRoll === 'granted' });
     }
 
     handleSwitchCameraPress = () => {
@@ -27,13 +30,20 @@ export default class CameraScreen extends Component {
     };
 
     handleTakePicturePress = async () => {
-        const photo = await this.camera.takePictureAsync({ base64: true, quality: 0.9 });
-        const imageSrc = 'data:image/jpg;base64,' + photo.base64;
+        const { uri } = await this.camera.takePictureAsync();
+        const imageSrc = uri;
         this.setState({ imageSrc });
     };
 
-    handleSavePicture = () => {
-        Alert.alert('Image saved');
+    handleSavePicture = async () => {
+        const asset = await MediaLibrary.createAssetAsync(this.state.imageSrc);
+        MediaLibrary.createAlbumAsync('Expo',asset)
+        .then(()=>{
+            Alert.alert('Image saved');
+        })
+        .catch(error=>{
+            Alert.alert('An error occured!');
+        });
     }
 
     render() {
