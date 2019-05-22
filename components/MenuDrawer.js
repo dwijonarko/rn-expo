@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, Dimensions,StyleSheet,View,Text,TouchableOpacity,Image,ScrollView } from 'react-native';
 import {ImagePicker,Permissions} from 'expo'
-
+import firebase from "firebase"
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 export default class MenuDrawer extends Component {
@@ -41,6 +41,14 @@ export default class MenuDrawer extends Component {
         }
     };
 
+    _signOut = () => {
+        firebase.auth().signOut().then(function () {
+            this.props.navigation.navigate('Auth');
+        }).catch(function (error) {
+            console.log(error)
+        });
+    };
+
     render() {
     return (
     <View style={styles.container}>
@@ -63,6 +71,9 @@ export default class MenuDrawer extends Component {
             {this.navlink('Location', 'Location')}
             {this.navlink('Map', 'Map')}
             
+            <TouchableOpacity style={{ height: 50 }} onPress={this._signOut}>
+                <Text style={styles.link}>Logout</Text>
+            </TouchableOpacity>
         </View>
         </ScrollView>
         <View style={styles.footer}>
