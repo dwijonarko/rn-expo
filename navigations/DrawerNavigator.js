@@ -7,6 +7,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SettingScreen from '../screens/SettingScreen';
 import MenuDrawer from '../components/MenuDrawer';
 import CameraScreen from '../screens/CameraScreen';
+import MapScreen from '../screens/MapScreen';
+import LocationScreen from '../screens/LocationScreen';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -48,6 +50,12 @@ const DrawerNavigator = createDrawerNavigator(
         Camera: {
             screen: CameraScreen
         },
+        Location:{
+            screen: LocationScreen
+        },
+        Map:{
+            screen: MapScreen
+        }
     },
     DrawerConfig
 );

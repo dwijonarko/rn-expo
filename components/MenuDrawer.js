@@ -60,6 +60,8 @@ export default class MenuDrawer extends Component {
             {this.navlink('Setting', 'Setting')}
             {this.navlink('Profile', 'Profile')}
             {this.navlink('Camera', 'Camera')}
+            {this.navlink('Location', 'Location')}
+            {this.navlink('Map', 'Map')}
             
         </View>
         </ScrollView>
