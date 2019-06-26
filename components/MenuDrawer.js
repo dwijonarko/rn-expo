@@ -70,6 +70,7 @@ export default class MenuDrawer extends Component {
             {this.navlink('Camera', 'Camera')}
             {this.navlink('Location', 'Location')}
             {this.navlink('Map', 'Map')}
+            {this.navlink('Todo', 'Todo')}
             
             <TouchableOpacity style={{ height: 50 }} onPress={this._signOut}>
                 <Text style={styles.link}>Logout</Text>
