@@ -23,13 +23,13 @@ export default class App extends React.Component {
 
   componentWillMount() {
     firebase.initializeApp({
-      apiKey: "YOUR KEY",
-      authDomain: "YOUR DOMAIN",
-      databaseURL: "YOUR DATABASEURL",
-      projectId: "YOUR PROJECT ID",
-      storageBucket: "YOUR STORAGE BUCKET",
-      messagingSenderId: "YOUR SENDER ID",
-      appId: "YOUR APP ID"
+      apiKey: "AIzaSyBq04XlU-UXRL7rkt1JjcnXtITjdsJYPEQ",
+      authDomain: "expo-tutorial.firebaseapp.com",
+      databaseURL: "https://expo-tutorial.firebaseio.com",
+      projectId: "expo-tutorial",
+      storageBucket: "expo-tutorial.appspot.com",
+      messagingSenderId: "659860840254",
+      appId: "1:659860840254:web:952208ed587c17d1"
     })
   }
   
